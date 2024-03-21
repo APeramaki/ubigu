@@ -1,4 +1,5 @@
-import { getAllHedgehogs } from "@server/application/hedgehog";
+import { addHedgehog, getAllHedgehogs } from "@server/application/hedgehog";
+import { Hedgehog, hedgehogSchema } from "@ubigu/shared/src/hedgehog";
 import { FastifyInstance, FastifyPluginOptions } from "fastify";
 
 export function hedgehogRouter(
@@ -14,6 +15,23 @@ export function hedgehogRouter(
     });
   });
 
+  fastify.post("/new", async function (request, reply) {
+    
+    const data/*  : typeof hedgehogSchema  */= await request.body;
+    console.log(request.body);
+/*     const h = hedgehogSchema.parse({
+      id: 0,
+      name: "siiri",
+      sex: "Male",
+      lat: 1,
+      lon: 2,
+    }) */
+    const h = addHedgehog(hedgehogSchema.parse(request.body));
+    
+    return reply.code(200).send({
+      h
+    })
+  })
   // TODO: Yksittäisen siilin hakeminen tietokannasta ID:llä
   // fastify.get(...);
 

@@ -40,7 +40,7 @@ export default function HedgeHogList() {
       </Box>
       {hedgehogs.length ? (
         <Box sx={{ overflowY: "scroll", height: "100%" }}>
-          {hedgehogs.map((hedgehog, index: number) => (
+          {hedgehogs.map((hedgehog: { id: any; }, index: number) => (
             <MenuItem key={`hedgehog-index-${index}`}>{hedgehog.id}</MenuItem>
           ))}
         </Box>
