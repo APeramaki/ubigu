@@ -1,11 +1,19 @@
 ### Request new
 POST http://localhost:3003/api/v1/hedgehog/new HTTP/1.1
-Content-Type: application/json
+content-type: application/json
 
 {
-    "id": 1,
-    "name": "siiri",
-    "sex": "Male",
-    "lat": 1,
-    "lon": 2
+    "name": "Täää toimii 😭",
+    "sex": "Female",
+    "point": [50.23,10.3]
 }
+
+
+### Get 'em all
+GET http://localhost:3003/api/v1/hedgehog HTTP/1.1
+Content-Type: application/json
+
+
+### Get by Id
+GET http://localhost:3003/api/v1/hedgehog/2 HTTP/1.1
+Content-Type: application/json

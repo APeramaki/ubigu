@@ -35,6 +35,9 @@ services:
       interval: 5s
       timeout: 5s
       retries: 10
+    logging: 
+      options:
+        max-size: "10m"
   db:
     image: postgis/postgis:13-3.3-alpine
     restart: always

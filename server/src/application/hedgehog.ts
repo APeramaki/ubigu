@@ -5,27 +5,41 @@ import { sql } from "slonik";
 
 export async function getAllHedgehogs() {
   try {
-    const hedgehogs = await getPool().any(
-      sql.type(hedgehogSchema)`SELECT id FROM hedgehog`
+    const hedgehogs = await getPool().query(
+      sql.type(hedgehogSchema)`SELECT * FROM hedgehog`
     );
 
-    return hedgehogs;
+    return hedgehogs.rows;
   } catch (error) {
     logger.error(error);
   }
 }
 
 // TODO: Yksittäisen siilin hakeminen tietokannasta ID:llä
+export async function getHedgehogById(id : number) {
+  try {
+    const response = await getPool().one(
+      sql.type(hedgehogSchema)`
+        SELECT * FROM hedgehog WHERE id = 12`
+    );
+    return response;
+  } catch (error) {
+    logger.error(error);
+  }
+
+}
 
 // TODO: Yksittäisen siilin lisäämisen sovelluslogiikka
 export async function addHedgehog(hedgehog: Hedgehog ) {
+    
   try {
-    await getPool().one(
+    const newHedgehog = await getPool().one(
       sql.type(hedgehogSchema)`
-      INSERT INTO hedgehog VALUES (
-        ${hedgehog.id}, ${hedgehog.name}, ${hedgehog.sex}, ${hedgehog.lat}, ${hedgehog.lon})`
+        INSERT INTO hedgehog (name, sex, location)
+        VALUES (${hedgehog.name}, ${hedgehog.sex}, POINT(${hedgehog.point[0]}, ${hedgehog.point[1]}))
+        RETURNING *`
     );
-    console.log(hedgehog);
+    return newHedgehog;
   } catch(error) {
     logger.error(error);
   }
