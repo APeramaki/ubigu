@@ -2,8 +2,19 @@ import { Box, MenuItem, Paper, Typography } from "@mui/material";
 import { Hedgehog } from "@shared/hedgehog";
 import { useEffect, useState } from "react";
 
-export default function HedgeHogList() {
+interface Props {
+  onSelect: (id: number) => void;
+  // [selectedHedgehogId, setSelectedHedgehogId] = useState<Hedgehog>(number)
+}
+export default function HedgeHogList({ onSelect }: Props ) {
   const [hedgehogs, setHedgehogs] = useState<Hedgehog[]>([]);
+  
+  const handleSelect = (id : number) => {
+    console.log(id);
+    onSelect(id);
+  }
+
+  
 
   // Fetch all hedgehog's during startup
   useEffect(() => {
@@ -40,8 +51,12 @@ export default function HedgeHogList() {
       </Box>
       {hedgehogs.length ? (
         <Box sx={{ overflowY: "scroll", height: "100%" }}>
-          {hedgehogs.map((hedgehog: { id: any; }, index: number) => (
-            <MenuItem key={`hedgehog-index-${index}`}>{hedgehog.id}</MenuItem>
+          {hedgehogs.map((hedgehog: { id?: any; }, index: number) => (
+            <MenuItem
+              key={`hedgehog-index-${index}`}
+              onClick={() => onSelect(hedgehog.id)}>
+                {hedgehog.id}
+            </MenuItem>
           ))}
         </Box>
       ) : (

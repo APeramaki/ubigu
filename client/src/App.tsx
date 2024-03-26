@@ -9,10 +9,11 @@ export function App() {
   // Latest coordinates from the Map click event
   const [coordinates, setCoordinates] = useState<number[]>();
   // ID of the currently selected hedgehog
-  const [selectedHedgehogId, setSelectedHedgehogId] = useState<number | null>(
-    null
-  );
+  const [selectedHedgehogId, setSelectedHedgehogId] = useState<number | null>(null);
 
+  const handleSelectedHedgehog = (id: number) => {
+    setSelectedHedgehogId(id);
+  }
   return (
     <Box
       sx={{
@@ -47,7 +48,7 @@ export function App() {
           overflow: "hidden",
         }}
       >
-        <HedgeHogList />
+        <HedgeHogList onSelect={handleSelectedHedgehog}/>
         <Box>
           <HedgehogInfo hedgehogId={selectedHedgehogId} />
           <HedgehogForm coordinates={coordinates || []} />
