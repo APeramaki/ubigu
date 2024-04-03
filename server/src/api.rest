@@ -3,9 +3,9 @@ POST http://localhost:3003/api/v1/hedgehog/new HTTP/1.1
 content-type: application/json
 
 {
-    "name": "Täää toimii 😭",
+    "name": "wat",
     "sex": "Female",
-    "point": [50.23,10.3]
+    "location": [124.42, 123.45]
 }
 
 
@@ -15,5 +15,5 @@ Content-Type: application/json
 
 
 ### Get by Id
-GET http://localhost:3003/api/v1/hedgehog/2 HTTP/1.1
+GET http://localhost:3003/api/v1/hedgehog/36 HTTP/1.1
 Content-Type: application/json

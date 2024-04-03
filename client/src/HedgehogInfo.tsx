@@ -4,25 +4,26 @@ import { useEffect, useState } from "react";
 
 
 interface Props {
-  hedgehogId: number | null;
+  hedgehogId: number | null,
+  hedgehogData: Hedgehog | undefined,
+  cacheHedgehog (id: number, toCache: Hedgehog): void
 }
 
-export function HedgehogInfo({ hedgehogId }: Props) {
-  const [HedgehogData, setHedgehogData] = useState<Hedgehog | null>(null);
+export function HedgehogInfo(props : Props) {
+  const {hedgehogId, hedgehogData, cacheHedgehog} = props;
   useEffect(() => {
-    if (hedgehogId) {
+    if (hedgehogId && !hedgehogData) {
       fetchHedhehogData(hedgehogId).then( data => {
-        setHedgehogData(data.response);
+        const location = [data.response.location.x, data.response.location.y]
+        cacheHedgehog(hedgehogId, {...data.response, location: location});
+        console.log(data.response);
         
       }
       ).catch(error => {
         console.error(`failed to fetch data: `, error);
-        setHedgehogData(null);
       })
-    } else {
-
-    }
-  }, [hedgehogId]);
+    } 
+  },[hedgehogId, hedgehogData]);
 
   const fetchHedhehogData = async (id: number) => {
     const response = await fetch(`/api/v1/hedgehog/${id}`);
@@ -40,21 +41,21 @@ export function HedgehogInfo({ hedgehogId }: Props) {
       }}
     > 
 
-      {HedgehogData ? (<>
+      {hedgehogData ? (<>
         <Box>
           <Stack direction="row" justifyContent="space-between" alignItems="center">
-            <Typography variant="h5">{HedgehogData.name} </Typography>
-            <Typography variant="h6">{HedgehogData.id ? HedgehogData.id : '_'} </Typography>
+            <Typography variant="h5">{hedgehogData.name} </Typography>
+            <Typography variant="h6">{hedgehogId ? hedgehogId : '_'} </Typography>
           </Stack>
         </Box>
           <Divider></Divider>
         <Box>
-          {HedgehogData.sex}
+          {hedgehogData.sex}
         </Box>
         <Stack direction="row">
           Location:
-          <Chip label={HedgehogData.location.x}/>
-          <Chip label={HedgehogData.location.y}/>
+          <Chip key={hedgehogData.location[0]} label={hedgehogData.location[0]}/>
+          <Chip key={hedgehogData.location[1]} label={hedgehogData.location[1]}/>
         </Stack>
       </>
       ) : ( <h3>Pick a hedgehog! </h3>)

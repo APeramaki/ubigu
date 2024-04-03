@@ -36,7 +36,7 @@ export async function addHedgehog(hedgehog: Hedgehog ) {
     const newHedgehog = await getPool().one(
       sql.type(hedgehogSchema)`
         INSERT INTO hedgehog (name, sex, location)
-        VALUES (${hedgehog.name}, ${hedgehog.sex}, POINT(${hedgehog.location.x}, ${hedgehog.location.y}))
+        VALUES (${hedgehog.name}, ${hedgehog.sex}, POINT(${hedgehog.location[0]}, ${hedgehog.location[1]}))
         RETURNING *`
     );
     return newHedgehog;

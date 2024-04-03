@@ -17,7 +17,7 @@ interface Props {
   onMapClick: (coordinates: number[]) => void;
 }
 
-export function Map({ children, onMapClick, features }: Props) {
+export function MapView({ children, onMapClick, features }: Props) {
   const mapRef = useRef<HTMLDivElement>(null);
 
   /**
@@ -73,9 +73,11 @@ export function Map({ children, onMapClick, features }: Props) {
   /** Listen for changes in the 'features' property */
   useEffect(() => {
     if (!features || !features.length) return;
+    
     const layers = olMap.getLayers().getArray();
 
     const source = (layers[1] as VectorLayer<VectorSource>).getSource();
+    source?.clear();
     const olFeatures = features.map(
       (geometry) =>
         new Feature({
