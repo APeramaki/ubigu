@@ -1,6 +1,6 @@
 import { Button, Divider, FormControl, InputLabel, MenuItem, Paper, Select, SelectChangeEvent, Stack, TextField, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import { Hedgehog } from "@shared/hedgehog";
+import { Hedgehog, hedgehogSchema } from "@shared/hedgehog";
 
 interface Props {
   coordinates: number[],
@@ -10,8 +10,8 @@ interface Props {
 export function HedgehogForm({ coordinates, addToCache }: Props) {
   const [formData, setFormData] =  useState<Hedgehog>({
     name: '',
-    sex: '',
-    location: [null, null]
+    sex: 'Unknown',
+    location: [0, 0]
   })
 
   useEffect(() => {
@@ -19,11 +19,17 @@ export function HedgehogForm({ coordinates, addToCache }: Props) {
   }, [coordinates])
 
   const handleSexChange = (event: SelectChangeEvent) => {
-    setFormData( {...formData, sex: event.target.value} )
+    const sexSchema = hedgehogSchema.pick({ sex: true });
+    const sexParse = sexSchema.safeParse({sex: event.target.value});
+    if( sexParse.success ){
+      setFormData( {...formData,sex: sexParse.data.sex } );
+    } else {
+      console.warn("Stop messing with this input!");
+    }
   }
 
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement> ) => {
-    setFormData({...formData, name: event.target.value} )
+    setFormData( {...formData, name: event.target.value} )
   }
 
   const postHedgehogSighting = async (_e: any ) => {
@@ -36,7 +42,11 @@ export function HedgehogForm({ coordinates, addToCache }: Props) {
     })
     const json = await response.json();
     addToCache(json.response.id, json.response);
-
+    setFormData( {
+      name: '',
+      sex: 'Unknown',
+      location: [0, 0]
+    } )
   }
 
   const isFormValid = Object.values(formData).every(value => value);
@@ -75,26 +85,30 @@ export function HedgehogForm({ coordinates, addToCache }: Props) {
           </Select>
         </FormControl>
       </Stack>
+
       <Divider/>
+
       <Stack direction="row">
         <FormControl>
           <TextField
             disabled fullWidth margin="dense"
-            value={formData.location[0]} id="latitude" label="Latitude"
+            value={formData.location[0] || 0} id="latitude" label="Latitude"
+            InputLabelProps={{shrink: true}}
           />
         </FormControl>
 
         <FormControl>
           <TextField
             disabled fullWidth margin="dense"
-            value={formData.location[1]} id="longitude" label="longitude"
+            value={formData.location[1] || 0} id="longitude" label="longitude"
+            InputLabelProps={{shrink: true}}
           />
         </FormControl>
 
-        <Button size="medium" variant="contained" disabled={!isFormValid} onClick={postHedgehogSighting}>
+      </Stack>
+      <Button size="medium" variant="contained" disabled={!isFormValid} onClick={postHedgehogSighting}>
           Post sighting!
         </Button>
-      </Stack>
       <br />
     </Paper>
   );

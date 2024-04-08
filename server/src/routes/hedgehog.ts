@@ -25,7 +25,6 @@ export function hedgehogRouter(
   fastify.get("/:hedgehogId", async function (request : FastifyRequest< {Params: IGetHedgehogById}>, reply) {
     const { hedgehogId } = request.params;
     const response = await getHedgehogById(hedgehogId);
-    console.log(response);
     return reply.code(200).send({
       response
     })
@@ -35,8 +34,7 @@ export function hedgehogRouter(
   // TODO: Yksittäisen siilin lisäämisen sovelluslogiikka
   // fastify.post(...)
   fastify.post("/new", async function (request, reply) {
-    console.log(request.body);
-    // Output: { name: 'Zoooom', sex: 'Female', location: { x: 4, y: 5 } }
+    
     const newHedgehog : Hedgehog = hedgehogSchema.parse(request.body);
     const response = await addHedgehog(newHedgehog);
     

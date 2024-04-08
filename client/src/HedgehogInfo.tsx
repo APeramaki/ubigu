@@ -1,6 +1,6 @@
 import { Paper, Typography, Divider, Stack, Box, Chip } from "@mui/material";
 import { Hedgehog } from "@shared/hedgehog";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 
 interface Props {
@@ -16,10 +16,7 @@ export function HedgehogInfo(props : Props) {
       fetchHedhehogData(hedgehogId).then( data => {
         const location = [data.response.location.x, data.response.location.y]
         cacheHedgehog(hedgehogId, {...data.response, location: location});
-        console.log(data.response);
-        
-      }
-      ).catch(error => {
+      }).catch(error => {
         console.error(`failed to fetch data: `, error);
       })
     } 

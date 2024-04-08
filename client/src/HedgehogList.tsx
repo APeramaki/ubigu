@@ -1,6 +1,4 @@
 import { Box, MenuItem, Paper, Typography } from "@mui/material";
-import { Hedgehog } from "@shared/hedgehog";
-import { useState } from "react";
 
 interface Props {
   hedgehogs: number[],
@@ -10,7 +8,6 @@ interface Props {
 export default function HedgeHogList({ hedgehogs, onSelect }: Props ) {
   
   const handleSelect = (id : number) => {
-    console.log(id);
     onSelect(id);
   }
 

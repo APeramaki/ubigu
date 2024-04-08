@@ -14,6 +14,7 @@ export function App() {
   const [selectedHedgehogId, setSelectedHedgehogId] = useState<number | null>(null);
   
   // Fetch all hedgehog's during startup
+  // Fill map with ID's
   useEffect(() => {
     const getAllHedgehogs = async () => {
       try {
@@ -32,7 +33,6 @@ export function App() {
     };
 
     getAllHedgehogs();
-    console.log([...hedgehogCache.keys()])
   }, []);
 
   const handleSelectedHedgehog = (id: number) => {
@@ -126,7 +126,6 @@ export function App() {
         <Paper elevation={3} sx={{ margin: "1em" }}>
           <MapView
             onMapClick={(coordinates:any) => setCoordinates(coordinates)}
-            // Esimerkki siitä, miten kartalle voidaan välittää siilien koordinaatteja GeoJSON -arrayssä
             features={showCoordinates()} 
           />
         </Paper>
