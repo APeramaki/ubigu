@@ -28,7 +28,7 @@ export default function HedgeHogList({ hedgehogs, onSelect }: Props ) {
         </Typography>
       </Box>
       {hedgehogs.length ? (
-        <Box sx={{ overflowY: "scroll", height: "100%" }}>
+        <Box sx={{ overflowY: "scroll", height: "calc(100vh - 9.5em)", minHeight:"20em"}}>
           {hedgehogs.map((id: any, index: number) => (
             <MenuItem
               key={`hedgehog-index-${index}`}
@@ -39,10 +39,7 @@ export default function HedgeHogList({ hedgehogs, onSelect }: Props ) {
         </Box>
       ) : (
         <Typography sx={{ padding: "1em" }}>
-          TODO: Mikäli tietokannasta löytyy siilejä, ne listautuvat tähän.
-          Koodaa logiikka, jolla tämän listauksen siiliä klikkaamalla siili
-          tulee valituksi, jonka jälkeen sen tiedot tulee hakea viereiseen
-          komponenttiin.
+          Suomesta ei löytynyt siilejä 😢
         </Typography>
       )}
     </Paper>

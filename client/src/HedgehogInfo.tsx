@@ -22,6 +22,7 @@ export function HedgehogInfo(props : Props) {
     } 
   },[hedgehogId, hedgehogData]);
 
+
   const fetchHedhehogData = async (id: number) => {
     const response = await fetch(`/api/v1/hedgehog/${id}`);
     if(!response.ok) {
@@ -47,10 +48,10 @@ export function HedgehogInfo(props : Props) {
         </Box>
           <Divider></Divider>
         <Box>
-          {hedgehogData.sex}
+          Sukupuoli:{ hedgehogData.sex }
         </Box>
         <Stack direction="row">
-          Location:
+          <Typography>Sijainti:</Typography>
           <Chip key={hedgehogData.location[0]} label={hedgehogData.location[0]}/>
           <Chip key={hedgehogData.location[1]} label={hedgehogData.location[1]}/>
         </Stack>

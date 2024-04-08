@@ -40,8 +40,10 @@ export function HedgehogForm({ coordinates, addToCache }: Props) {
       },
       body: JSON.stringify(formData)
     })
+    
     const json = await response.json();
-    addToCache(json.response.id, json.response);
+    const newHedgehog = {...json.response, location: [json.response.location.x, json.response.location.y]}
+    addToCache(json.response.id, newHedgehog);
     setFormData( {
       name: '',
       sex: 'Unknown',
@@ -59,7 +61,7 @@ export function HedgehogForm({ coordinates, addToCache }: Props) {
       }}
     >
       <Typography>
-        Add new hedgehog sighting!
+        Lisää siili havainto:
       </Typography>
       <Stack direction="row">
         <FormControl>
@@ -69,19 +71,20 @@ export function HedgehogForm({ coordinates, addToCache }: Props) {
           />
         </FormControl>
 
-        <FormControl>
+        <FormControl
+         sx= {{margin:"0.5em 0 0 0"}}>
           <InputLabel>Sex</InputLabel>
           <Select
+           
             fullWidth
-            margin="dense"
             value={formData.sex}
             id="sex"
             label="Sex"
             onChange={handleSexChange}
           >
-                <MenuItem value="Male">Male</MenuItem>
-                <MenuItem value="Female">Female</MenuItem>
-                <MenuItem value="Unknown">Unknown</MenuItem>
+                <MenuItem value="Male">Uros</MenuItem>
+                <MenuItem value="Female">Naaras</MenuItem>
+                <MenuItem value="Unknown">Tunnistamaton</MenuItem>
           </Select>
         </FormControl>
       </Stack>
